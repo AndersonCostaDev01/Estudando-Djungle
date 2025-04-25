@@ -1,65 +1,151 @@
-# Configurando Djungle
 
-## Oque e o Djangle
+### 📌 **Sumário**
 
-Djungle e um framework python para criação de aplicaçoes web
+- [Configurando Django](#configurando-django)
+  - [O que é o Django?](#o-que-é-o-django)
+  - [Mas o que é um framework?](#mas-o-que-é-um-framework)
+- [Início das configurações](#início-das-configurações)
+  - [Requisitos](#requisitos)
+  - [Criando um ambiente virtual](#criando-um-ambiente-virtual)
+  - [Instalando o Django](#instalando-o-django)
+  - [Criando um novo projeto Django](#criando-um-novo-projeto-django)
+  - [Executando o servidor de desenvolvimento](#executando-o-servidor-de-desenvolvimento)
+  - [Criando um novo app Django](#criando-um-novo-app-django)
+  - [Configurando um novo app](#configurando-um-novo-app)
+  - [Iniciando as migrações](#iniciando-as-migrações)
 
-### Mas oque e um framework?
+---
 
-Um framework e um conjunto de ferramentas juntas em um so local que te auxilia no desenvolvimento, isto porque muitas funçoes ja vem prontas dentro dele para te ajudar e agilizar seu desenvolvimento
+# 🛠️ Configurando Django
 
-## Inicio das configuraçoes
+## 📌 O que é o Django?
 
-> **obs**: A aplicação sera feita em um outro repositorio para facilitar o entendimento mas os passos serão descritos aqui
+[Django](https://www.djangoproject.com/) é um **framework** Python para criação de aplicações web. Ele oferece uma estrutura robusta e organizada para o desenvolvimento de sistemas, permitindo que você foque mais na lógica do seu projeto e menos em detalhes repetitivos.
 
-- Veja o repositorio em: [Repositorio-mysite](https://github.com/AndersonCostaDev01/mysite)
+### 🔹 Mas o que é um framework?
 
-### Requisistos
+Um **framework** é um conjunto de ferramentas e bibliotecas organizadas em um só local para facilitar o desenvolvimento de software. Isso porque muitas funcionalidades essenciais já vêm prontas, agilizando o processo de criação da aplicação.
 
-Para criar um projeto em djungle e nessesario ter o python3 em sua maquina, para verificar se voce tem ele rode em seu terminal `python --version` para windols ou `python3 -- version` para mac e linux
-<br><br>
-e recomendado que para a criação de qualquer projeto python ele seja feito em um ambiente virtual para evitar conflitos internos, então para criar o ambiente rode
+---
 
-> **Obs**: e recomendado que o nome do ambiente seja .venv ou env apenas por criterio de padronização
+## 🚀 Início das configurações
 
+> **Obs:** A aplicação será feita em outro repositório para facilitar o entendimento, mas os passos serão descritos aqui.
+
+🔗 **Veja o repositório:** [Repositorio-mysite](https://github.com/AndersonCostaDev01/mysite)
+
+---
+
+### 📌 Requisitos
+
+Para criar um projeto em Django, é necessário ter o **Python 3** instalado em sua máquina. Para verificar se você já tem o Python instalado, execute no terminal:
+
+- No **Windows**:
+  ```bash
+  python --version
+  ```
+- No **macOS e Linux**:
+  ```bash
+  python3 --version
+  ```
+
+---
+
+### 📌 Criando um ambiente virtual
+
+É **recomendado** que todo projeto Python seja feito dentro de um **ambiente virtual**, para evitar conflitos entre dependências de diferentes projetos.
+
+Para criar um ambiente virtual, execute:
+
+```bash
+python -m venv <nome-do-ambiente>
 ```
-<nome do ambiente>\Scripts\activate
+
+> **Obs:** É comum usar os nomes `.venv` ou `env` por padronização.
+
+Para **ativar** o ambiente virtual:
+
+- No **Windows**:
+  ```bash
+  <nome-do-ambiente>\Scripts\activate
+  ```
+- No **macOS e Linux**:
+  ```bash
+  source <nome-do-ambiente>/bin/activate
+  ```
+
+> **Obs:** Quando terminar de codar, lembre-se de **desativar** o ambiente com:
+
+```bash
+deactivate
 ```
 
-agora entre dentro do ambiente vitual
+---
 
-```
-<nome do ambiente>\Scripts\activate
-```
+### 📌 Instalando o Django
 
-> **obs:** Lembre de quando terminar de codar sair do ambiente virtual com "deactivate"
+Com o ambiente virtual ativado, instale o Django executando:
 
-agora seguimos com a instalação do **Djungle**
-
-```
+```bash
 pip install django
 ```
 
-para iniciar realmente um projeto django e nessesario rodar
+---
 
-```
-django-admin startproject <nome do projeto>
-```
+### 📌 Criando um novo projeto Django
 
-isto vai criar a pasta principal do seu projeto com o nome dela
-<br><br>
-agora voce ja tem sua primeira aplicação django e para rodar ela use
+Para criar um novo projeto Django, use o comando:
 
-```
-python .\manage.py runserver
+```bash
+django-admin startproject <nome-do-projeto>
 ```
 
-agora sua aplicação esta rodando na porta 8000, para interromper basta apertar `ctrl + c`
-<br><br>
-agora para criar um app que e uma forma que o django utiliza para dividir as funçoes de sua aplicação e facilitar o desenvolvimento e manutenção rode
+Isso criará uma pasta com a estrutura inicial do seu projeto.
 
-```
-python .\manage.py startapp <nome do app>
+---
+
+### 📌 Executando o servidor de desenvolvimento
+
+Agora, para rodar o servidor local do Django, utilize:
+
+```bash
+python manage.py runserver
 ```
 
-então uma nova pasta ira ser criada com o nome do seu novo app
+A aplicação será executada na **porta 8000**. Para interromper o servidor, pressione `Ctrl + C`.
+
+---
+
+### 📌 Criando um novo app Django
+
+No Django, os **apps** são módulos independentes que organizam as funcionalidades da aplicação. Para criar um novo app, execute:
+
+```bash
+python manage.py startapp <nome-do-app>
+```
+
+Isso criará uma nova pasta com a estrutura do seu app dentro do projeto.
+
+---
+
+### 📌 Configurando um novo app
+
+Para que o Django reconheça seu app, é necessário adicioná-lo ao arquivo `settings.py`, na lista `INSTALLED_APPS`.
+
+Após o último app listado, adicione uma vírgula e insira o nome do seu app entre aspas simples. O Django já vem com alguns apps nativos — por enquanto, apenas mantenha-os como estão.
+
+---
+
+### 📌 Iniciando as migrações
+
+Para aplicar as migrações padrão do Django, execute:
+
+```bash
+python manage.py migrate
+```
+
+Isso aplicará todas as migrações iniciais necessárias para o funcionamento básico da aplicação.
+
+---
+
+💡 **Agora seu ambiente está pronto!** Você pode começar a desenvolver sua aplicação Django. 🚀
