@@ -13,6 +13,7 @@
   - [Configurando um novo app](#configurando-um-novo-app)
   - [Iniciando as migrações](#iniciando-as-migrações)
 - [Models e Admin](#models-e-admin)
+- [Views](#views)
 
 ---
 
@@ -130,15 +131,13 @@ No Django, os **apps** são módulos independentes que organizam as funcionalida
 python manage.py startapp <nome-do-app>
 ```
 
-Isso criará uma nova pasta com a estrutura do seu app dentro do projeto.
-
 ---
 
 ### 📌 Configurando um novo app
 
 Para que o Django reconheça seu app, é necessário adicioná-lo ao arquivo `settings.py`, na lista `INSTALLED_APPS`.
 
-Após o último app listado, adicione uma vírgula e insira o nome do seu app entre aspas simples. O Django já vem com alguns apps nativos — por enquanto, apenas mantenha-os como estão.
+Após o último app listado, adicione uma vírgula e insira o nome do seu app entre aspas simples.
 
 ---
 
@@ -150,46 +149,24 @@ Para aplicar as migrações padrão do Django, execute:
 python manage.py migrate
 ```
 
-Isso aplicará todas as migrações iniciais necessárias para o funcionamento básico da aplicação.
-
 ---
 
 ## 📦 Models e Admin
 
 ### 📌 O que é `models`?
 
-O `models` é um componente fundamental do Django, responsável por definir a estrutura das tabelas no banco de dados através de classes em Python. Ele faz parte do ORM (Object-Relational Mapping) do Django, permitindo que você crie, leia, atualize e delete dados do banco de forma simples e intuitiva, sem precisar escrever SQL diretamente.
-
-Com os `models`, você pode:
-
-- Definir os campos de uma tabela usando atributos de classe.
-- Criar relacionamentos entre tabelas com facilidade.
-- Utilizar métodos prontos para consultas, filtros e ordenações.
-- Integrar os dados facilmente com outras partes da aplicação, como as views e forms.
-
-#### Exemplo de importação:
+O `models` é um componente fundamental do Django, responsável por definir a estrutura das tabelas no banco de dados através de classes em Python.
 
 ```python
 from django.db import models
 ```
-
----
 
 ### 📌 Organizando os models
 
-Para organizar melhor os _models_ no projeto, você pode criar uma pasta `models` dentro do app, e nela um arquivo `__init__.py`.
-
-Depois, crie arquivos `.py` separados com nomes descritivos, como `usuario.py`, `produto.py` etc., contendo os modelos relacionados.
-
 ```python
-from django.db import models
-
 class Produto(models.Model):
     nome = models.CharField(max_length=200, unique=True)
 ```
-
-> 🔗 Veja os tipos de campos disponíveis:  
-> [Documentação oficial do Django](https://docs.djangoproject.com/en/5.2/topics/db/models/)
 
 Após criar o model, rode:
 
@@ -198,13 +175,7 @@ python manage.py makemigrations
 python manage.py migrate
 ```
 
----
-
 ### 📌 Ativando o painel `/admin`
-
-O Django possui um painel administrativo embutido acessível por `/admin`.
-
-Para registrar um modelo e permitir edição via interface administrativa, edite o arquivo `admin.py` do seu app:
 
 ```python
 from django.contrib import admin
@@ -213,25 +184,44 @@ from .models import Produto
 admin.site.register(Produto)
 ```
 
-Depois, crie um superusuário com:
+Crie um superusuário:
 
 ```bash
 python manage.py createsuperuser
 ```
 
-Preencha os campos solicitados:
+---
 
-- Nome de usuário
-- E-mail
-- Senha (e confirmação)
+## 🚀 Views
 
-Com isso, acesse [http://localhost:8000/admin](http://localhost:8000/admin), faça login e comece a gerenciar os dados diretamente pelo navegador.
+### 📌 O que são as Views?
+
+As **views** fazem a ponte entre **URLs**, **templates** e **models**.
+
+### 🗂️ Organização das Views
+
+```text
+seu_app/
+├── views/
+│   ├── home.py
+│   ├── posts.py
+│   └── __init__.py
+```
+
+### 🧱 Exemplo de View com Classe
+
+```python
+from django.http import HttpResponse
+from django.views import View
+
+class PostView(View):
+    def get(self, request, *args, **kwargs):
+        return HttpResponse("Olá, esta é a página de postagens!")
+```
 
 ---
 
 ### 📌 Dica extra: Arquivo `.gitignore`
-
-É importante criar um arquivo `.gitignore` na raiz do seu projeto contendo:
 
 ```
 .venv/
@@ -245,12 +235,4 @@ db.sqlite3
 
 ## ✅ Pronto!
 
-Agora você já tem uma base funcional com Django, pronta para evoluir com models, views, templates e muito mais.  
-Se quiser continuar, recomendo explorar:
-
-- `Views` e URLs
-- `Templates` com HTML
-- Sistema de autenticação (login/logout)
-- APIs com Django REST Framework
-
-🚀 Bora codar!
+Agora você já tem uma base funcional com Django, pronta para evoluir com models, views, templates e muito mais.
