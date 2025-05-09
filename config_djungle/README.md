@@ -221,6 +221,90 @@ class PostView(View):
 
 ---
 
+## 🚀 Django Templates
+
+### O que são templates no Django?
+
+**Templates** no Django são a forma de **misturar HTML com dados do Python** para gerar páginas dinâmicas.  
+Eles permitem que você exiba conteúdo de forma interativa, utilizando dados vindos do backend.
+
+---
+
+### 🛠️ Configuração dos templates
+
+Para configurar os templates no Django, siga os passos abaixo:
+
+1. Crie uma pasta chamada `templates` na raiz do projeto (no mesmo nível do `manage.py`).
+2. Vá até o arquivo `settings.py` e adicione a seguinte linha:
+
+```python
+import os  # Certifique-se de ter essa importação no topo
+
+TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
+```
+
+3. localize a variavel `TEMPLATES` no mesmo arquivo e altere o valor da chave `DIRS` para incluir `TEMPLATES_DIR`:
+
+```python
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [TEMPLATES_DIR],  # Aqui você adiciona a pasta de templates
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                # Processadores de contexto padrão
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+```
+
+Com essa configuração, o Django poderá reconhecer e renderizar os arquivos `.html` da pasta `templates` para gerar páginas dinâmicas.
+
+### Como utilizar na pratica
+
+Inicialmente crie os arquivos `.html` normalmente para uso na aplicação, a diferença de um `.html` normal para um do `django` são algumas tags adicionais que o django disponibiliza para pegarmos informaçoes de certos campos ou adicionarmos informaçoes em certos campos alem de tags que extendem outros arquivos `.html` para podermos reaproveitar codigo estas `tags` são
+
+```html
+{% block content %}
+<!-- Content Goes here -->
+{% endblock content %} e {% for post in post_list %}
+<div class="card mb-4">
+  <div class="card-body">
+    <h2 class="card-title">{{ post.title }}</h2>
+    <p class="card-text text-muted h6">
+      {{ post.author }} | {{ post.created_on}}
+    </p>
+    <p class="card-text">{{post.content|slice:":200" }}</p>
+    <a href="{% url 'post_detail' post.slug  %}" class="btn btn-primary"
+      >Read More &rarr;</a
+    >
+  </div>
+</div>
+{% endfor %}
+```
+
+estas tags permitem como dito acima reaproveitar conteudos e adicionar conteudo de forma dinamica na pagina
+
+### Onde utilizalos
+
+Utilizamos nas `viws` para renderizar apartir de uma função `get` que ira retornar alguma junto ao template
+
+```python
+class PostView(generic.ListView): 
+
+    # pega os posts publicados com status de 'publish' e ordena eles de acordo com a data de criacao, armazena eles na variavel queryset
+    queryset = Post.objects.filter(status=1).order_by('-created_on')
+    template_name = 'index.html' # renderiza o template 
+```
+
+---
+
 ### 📌 Dica extra: Arquivo `.gitignore`
 
 ```
